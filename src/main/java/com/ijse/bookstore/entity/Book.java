@@ -44,8 +44,4 @@ public class Book {
     @JoinColumn(name = "category_id" )
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "subcategory_id" )
-    private Subcategory subcategory;
-
 }

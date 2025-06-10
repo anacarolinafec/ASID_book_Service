@@ -10,5 +10,6 @@ public class BookCreationDto {
     private int quantity;
     private String isbnNumber;
     private String description;
-
+    private Long authorId;
+    private Long categoryId;
 }

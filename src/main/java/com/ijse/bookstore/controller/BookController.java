@@ -18,13 +18,13 @@ import com.ijse.bookstore.service.BookService;
 public class BookController {
 
     @Autowired
-    private BookService bookSerivce;
+    private BookService bookService;
     @Autowired
     private BookRepository bookRepository;
 
     @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBooks(){
-        List<Book> books = bookSerivce.getAllBook();
+        List<Book> books = bookService.getAllBook();
 
         return new ResponseEntity<>(books,HttpStatus.OK);
     }
@@ -32,7 +32,7 @@ public class BookController {
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id){
 
-        Book existBook = bookSerivce.getBookById(id);
+        Book existBook = bookService.getBookById(id);
 
         if(existBook !=null){
             return new ResponseEntity<>(existBook,HttpStatus.OK);
@@ -46,7 +46,7 @@ public class BookController {
     @GetMapping("/books/category/{id}")
     public ResponseEntity<List<Book>> getBooksByCategoryID(@PathVariable Long id) {
 
-        List<Book> existBook = bookSerivce.getBooksByCategoryID(id);
+        List<Book> existBook = bookService.getBooksByCategoryID(id);
 
         if(existBook !=null){
 
@@ -61,7 +61,7 @@ public class BookController {
     @PatchMapping("/updatequantity/{id}")
     public ResponseEntity<Book> patchQuantity(@PathVariable Long id , @RequestBody Book book){
 
-        Book updatedBookQuantity = bookSerivce.patchBookQuantity(id,book);
+        Book updatedBookQuantity = bookService.patchBookQuantity(id,book);
 
         return new ResponseEntity<>(updatedBookQuantity,HttpStatus.OK);
     }
@@ -73,14 +73,7 @@ public class BookController {
             return ResponseEntity.badRequest().body("Book already exists");
         }
 
-        Book newbook = new Book();
-        newbook.setTitle(bookCreationDto.getTitle());
-        newbook.setPrice(bookCreationDto.getPrice());
-        newbook.setQuantity(bookCreationDto.getQuantity());
-        newbook.setIsbnNumber(bookCreationDto.getIsbnNumber());
-        newbook.setDescription(bookCreationDto.getDescription());
-
-        bookRepository.save(newbook);
+        Book newbook = bookService.createBook(bookCreationDto);
 
         return new ResponseEntity<>(bookCreationDto,HttpStatus.OK);
     }
